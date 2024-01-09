@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	gin.SetMode(gin.ReleaseMode)
+	// gin.SetMode(gin.ReleaseMode)
 	server := gin.Default()
 
 	config := cors.DefaultConfig()
@@ -23,7 +23,7 @@ func main() {
 	server.GET("/image/:path", getImage)
 	server.POST("/image", uploadImage)
 
-	server.Run(":4000")
+	server.Run("0.0.0.0:4000")
 }
 
 func getImage(context *gin.Context) {
