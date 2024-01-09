@@ -60,6 +60,8 @@ func uploadImage(context *gin.Context) {
 	// extension := filepath.Ext(file.Filename)
 	uploadedImage.SetName(req.Image.Filename)
 
+	dirExists("images")
+
 	err := context.SaveUploadedFile(req.Image, "images/"+uploadedImage.Name)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": uploadedImage.Name})
@@ -90,8 +92,20 @@ func uploadImage(context *gin.Context) {
 
 	uploadedImage.Path = "output/" + uploadedImage.Name
 
+	dirExists("output")
+
 	uploadedImage.SaveImage()
 
 	context.JSON(http.StatusOK, gin.H{"message": "Image uploaded successfully", "name": uploadedImage.Name})
 
+}
+
+func dirExists(path string) {
+	_, err := os.Stat(path)
+	if err == nil {
+		return
+	}
+	if os.IsNotExist(err) {
+		os.Mkdir(path, os.ModePerm)
+	}
 }
