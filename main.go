@@ -13,6 +13,7 @@ import (
 )
 
 func main() {
+	gin.SetMode(gin.ReleaseMode)
 	server := gin.Default()
 
 	config := cors.DefaultConfig()
